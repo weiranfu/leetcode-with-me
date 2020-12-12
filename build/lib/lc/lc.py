@@ -75,8 +75,8 @@ def main():
                         version='%(prog)s ' + __version__)
     subparsers = parser.add_subparsers(metavar="command")
 
-    parser_init = subparsers.add_parser('init', help="Initilize at current directory")
-    parser_init.add_argument("remote_repo", help="GitHub remote repo link")
+    parser_init = subparsers.add_parser('init', help="Initilize at current directory.")
+    parser_init.add_argument("remote_repo", help="The GitHub remote repo to connect with.")
     parser_init.set_defaults(func=init)
 
     parser_new = subparsers.add_parser(

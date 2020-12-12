@@ -2,26 +2,31 @@
 
 > A small tool for writing solutions to LeetCode problems.
 
-## Feature
+## Features
 
-* Create markdown file with template to write solutions.
-* Upload file to GitHub
+* Initialize current directory with Git and connect to a GitHub repo.
+* Create a markdown file with [template.md](lc/template.md) to write LeetCode solutions.
+* Upload solutions to GitHub repo.
+
+## Installation
+
+`$ pip install leetcode-with-me`
 
 ## Usage
 
-```
-usage: lc [-h] [-v] command ...
+* Initialize a directory and connect to GitHub repo.
 
-LeetCode CLI interface and helper functions.
+  `$ lc init <repo link>`
 
-positional arguments:
-  command
-    new          Create a new LeetCode solution from template.
-    upload (u)   Commit a LeetCode solution and push to GitHub.
+* Create a solution markdown for you.
 
-optional arguments:
-  -h, --help     show this help message and exit
-  -v, --version  show program's version number and exit
+  `$ lc new <solution name> <solution category>`
 
-Further documentation is available at <https://github.com/weiranfu/leetcode-with-me>.
-```
+* Upload solutions to the GitHub repo.
+
+  `$ lc upload`
+
+See `lc --help` for more command-line switches and usage instructions.
+
+## License
+MIT

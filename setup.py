@@ -5,7 +5,7 @@ with open("README.md", 'r') as fp:
     long_description = fp.read()
 
 setup(
-    name="lc",
+    name="leetcode-with-me",
     version=lc.__version__,
     license="MIT",
     author="Weiran Fu",
