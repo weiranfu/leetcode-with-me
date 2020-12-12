@@ -18,6 +18,7 @@ from datetime import datetime, timedelta
 import shutil
 import sys
 import fileinput
+import subprocess
 
 BASE_DIR = "/Users/aranne/Documents/LeetCode"
 TEMPLATE_FILE = "leetcode.md"
@@ -55,7 +56,10 @@ def create_file(args):
 
 def upload_files(args):
     """Commit a LeetCode solution and push to GitHub."""
-
+    print(args)
+    subprocess.call(["git", "add", "."])
+    subprocess.call(["git", "commit", "-m", args.m])
+    subprocess.call(["git", "push", "origin", "main"])
 
 def main():
     parser = argparse.ArgumentParser(
@@ -91,6 +95,7 @@ def main():
         "upload",
         aliases=["u"],
         help="Commit a LeetCode solution and push to GitHub.")
+    parser_upload.add_argument("-m", metavar="message", default=":pencil: LeetCode with Me!", help="Git commit message")
     parser_upload.set_defaults(func=upload_files)
 
     args = parser.parse_args()
