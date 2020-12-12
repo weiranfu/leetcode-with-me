@@ -1,5 +1,7 @@
 # leetcode-with-me
 
+[![lc on PyPI](https://img.shields.io/pypi/v/leetcode-with-me.svg?color=blue&style=for-the-badge)](https://pypi.org/project/leetcode-with-me/)
+
 > A small tool for writing solutions to LeetCode problems.
 
 ## Features
