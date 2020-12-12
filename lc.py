@@ -20,7 +20,7 @@ import subprocess
 import re
 
 BASE_DIR = "/Users/aranne/Documents/LeetCode"
-TEMPLATE_FILE = "leetcode.md"
+TEMPLATE_FILE = "template.md"
 
 
 def create_file(args):
