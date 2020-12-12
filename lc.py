@@ -15,10 +15,9 @@ Categories:
 
 import argparse
 from datetime import datetime, timedelta
-import shutil
 import sys
-import fileinput
 import subprocess
+import re
 
 BASE_DIR = "/Users/aranne/Documents/LeetCode"
 TEMPLATE_FILE = "leetcode.md"
@@ -28,19 +27,17 @@ def create_file(args):
     """Create a new LeetCode solution from template."""
     filename = args.filename + ".md"
     target_dir = "{}/LeetCode/{}".format(BASE_DIR, args.category)
-    # create a solution file from template
+    target_dir_summary = "{}/Summary".format(BASE_DIR)
     template_path = "{}/{}".format(BASE_DIR, TEMPLATE_FILE)
-    path = "{}/{}".format(target_dir, filename)
-    # shutil.copyfile(template_path, path)
+    target_path = "{}/{}".format(target_dir, filename) if args.category != "Summary" else "{}/{}".format(target_dir_summary, filename)
+    # open the template and read lines
     lines = open(template_path, 'r').readlines()
-
     # update title && category && datetime in solution file
     title = " ".join([s.capitalize() for s in filename[:-3].split("-")])
-
     now = datetime.now()
     dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
-    
-    with open(path, 'w') as fp:
+    # create a new file and write lines 
+    with open(target_path, 'w') as fp:
         fp.write(lines[0])
         for line in lines[1:]:
             if "title:" in line:
@@ -56,7 +53,6 @@ def create_file(args):
 
 def upload_files(args):
     """Commit a LeetCode solution and push to GitHub."""
-    print(args)
     subprocess.call(["git", "add", "."])
     subprocess.call(["git", "commit", "-m", args.m])
     subprocess.call(["git", "push", "origin", "main"])
