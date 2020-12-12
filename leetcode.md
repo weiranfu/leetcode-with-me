@@ -8,6 +8,8 @@ date: 2020-10-20 23:51:43
 
 
 
+
+
 [Leetcode]()
 
 <!--more-->
@@ -18,11 +20,17 @@ date: 2020-10-20 23:51:43
 
 #### First Solution
 
+
+
 ---
 
 #### Optimized
 
+
+
 ---
 
 #### Standard Solution
+
+
 
