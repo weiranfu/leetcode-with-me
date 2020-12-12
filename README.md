@@ -15,7 +15,7 @@ usage: lc [-h] [-v] command ...
 LeetCode CLI interface and helper functions.
 
 positional arguments:
-  command        Available commands:
+  command
     new          Create a new LeetCode solution from template.
     upload (u)   Commit a LeetCode solution and push to GitHub.
 

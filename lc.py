@@ -68,8 +68,7 @@ def main():
                         "--version",
                         action="version",
                         version="LeetCode v0.0.1")
-    subparsers = parser.add_subparsers(metavar="command",
-                                       help="Available commands: ")
+    subparsers = parser.add_subparsers(metavar="command")
 
     parser_new = subparsers.add_parser(
         "new", help="Create a new LeetCode solution from template.")
