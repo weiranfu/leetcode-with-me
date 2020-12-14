@@ -110,6 +110,8 @@ def template(args):
 
 
 def category_add(args):
+    if args.category in categories:
+        return
     categories.append(args.category)
     data['categories'] = categories
     with open(DATA_PATH, 'w') as f:
