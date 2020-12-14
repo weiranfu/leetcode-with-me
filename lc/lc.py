@@ -119,6 +119,8 @@ def category_add(args):
 
 
 def category_rm(args):
+    if args.category not in categories:
+        return
     categories.remove(args.category)
     data['categories'] = categories
     with open(DATA_PATH, 'w') as f:
