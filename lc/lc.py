@@ -74,6 +74,7 @@ def create_file(args):
                 fp.write("# {}\n".format(title))
             else:
                 fp.write(line)
+    subprocess.call(["open", target_path])
 
 
 def upload_files(args):
