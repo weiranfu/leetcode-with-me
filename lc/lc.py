@@ -5,13 +5,13 @@ Usage: lc [-h] [-v] command ...
 
 positional arguments:
   command
-    init         Initilize at current directory.
+    init         Initilize at a directory and set up remote GitHub repo.
     new          Create a new LeetCode solution from template.
     upload (u)   Commit a LeetCode solution and push to GitHub.
     template (t)
-                 Set up a template file for solutions.
+                 Set up a template file for writing solutions.
     category (c)
-                 Add/Remove categories that LeetCode problems belongs to.
+                 Add/Remove categories which LeetCode problems belong to.
 
 optional arguments:
   -h, --help     show this help message and exit
@@ -137,7 +137,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-v",
                     "--version",
                     action="version",
-                    version='%(prog)s ' + __version__)
+                    version='%(prog)s version ' + __version__)
 
 
 def parser_help(args):
@@ -148,13 +148,13 @@ parser.set_defaults(func=parser_help)
 subparsers = parser.add_subparsers(metavar="command")
 
 parser_init = subparsers.add_parser('init',
-                                    help="Initilize at current directory.")
+                                    help="Initilize at a directory and set up remote GitHub repo.")
 parser_init.add_argument("directory",
                          metavar="<directory>",
-                         help="The directory you want to initialize at.")
+                         help="The path to the directory to initialize at.")
 parser_init.add_argument("remote_repo",
                          metavar="<remote_repo>",
-                         help="The GitHub remote repo to connect with.")
+                         help="The link of remote GitHub repo to connect with.")
 parser_init.set_defaults(func=init)
 
 parser_new = subparsers.add_parser(
@@ -165,7 +165,7 @@ parser_new.add_argument("filename",
 parser_new.add_argument("category",
                         metavar="<category>",
                         choices=categories,
-                        help="The category LeetCode solution belongs to.")
+                        help="The category which LeetCode solution belongs to.")
 parser_new.set_defaults(func=create_file)
 
 parser_upload = subparsers.add_parser(
@@ -175,16 +175,16 @@ parser_upload = subparsers.add_parser(
 parser_upload.add_argument("-m",
                            metavar="<message>",
                            default=":pencil: LeetCode with Me!",
-                           help="Git commit message")
+                           help="The Git commit message")
 parser_upload.set_defaults(func=upload_files)
 
 parser_template = subparsers.add_parser(
-    "template", aliases=['t'], help="Set up a template file for solutions.")
+    "template", aliases=['t'], help="Set up a template file for writing solutions.")
 group = parser_template.add_mutually_exclusive_group(
     required=True)  # One of -set and --use-default must be chosen
 group.add_argument("-set",
                    metavar="<template path>",
-                   help="The path of template file.")
+                   help="The path to the template file.")
 group.add_argument("--use-default",
                    action="store_true",
                    help="Use default template file.")
@@ -193,7 +193,7 @@ group.set_defaults(func=template)
 parser_category = subparsers.add_parser(
     'category',
     aliases=['c'],
-    help="Add/Remove categories that LeetCode problems belongs to.")
+    help="Add/Remove categories which LeetCode problems belong to.")
 
 
 def parser_category_help(args):
@@ -227,7 +227,7 @@ def main():
     if "set" in args and args.set:
         if args.set[-3:] != ".md":
             parser.error(
-                "Please use markdown file as template such as ~/path/to/template.md"
+                "Please use markdown file as template, e.g. ~/path/to/template.md"
             )
     args.func(args)
 
