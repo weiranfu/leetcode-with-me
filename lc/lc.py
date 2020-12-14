@@ -108,6 +108,7 @@ def template(args):
     with open(DATA_PATH, 'w') as f:
         json.dump(data, f)
 
+
 def category_add(args):
     pass
 
@@ -127,6 +128,13 @@ parser.add_argument("-v",
                     "--version",
                     action="version",
                     version='%(prog)s ' + __version__)
+
+
+def parser_help(args):
+    parser.print_help()
+
+
+parser.set_defaults(func=parser_help)
 subparsers = parser.add_subparsers(metavar="command")
 
 parser_init = subparsers.add_parser('init',
@@ -158,7 +166,8 @@ parser_upload.set_defaults(func=upload_files)
 
 parser_template = subparsers.add_parser(
     "template", aliases=['t'], help="Set up a template file for solutions.")
-group = parser_template.add_mutually_exclusive_group(required=True)  # One of -set and --use-default must be chosen
+group = parser_template.add_mutually_exclusive_group(
+    required=True)  # One of -set and --use-default must be chosen
 group.add_argument("-set",
                    metavar="<template path>",
                    help="The path of template file.")
@@ -171,6 +180,11 @@ parser_category = subparsers.add_parser(
     'category',
     aliases=['c'],
     help="Add/Remove categories that LeetCode problems belongs to.")
+
+def parser_category_help(args):
+    parser_category.print_help()
+
+parser_category.set_defaults(func=parser_category_help)
 category_subparsers = parser_category.add_subparsers(metavar="command")
 
 category_parser_add = category_subparsers.add_parser(
@@ -191,16 +205,16 @@ category_parser_rm.set_defaults(func=category_rm)
 def main():
     args = parser.parse_args()
     print(args)
-    if len(sys.argv) == 1:
-        parser.print_help(sys.stderr)
-        sys.exit(1)
     if "remote_repo" not in args and not BASE_DIR:
         parser.error(
             "Please first initialize at a directory using `lc init <remote repo>`."
         )
     if "set" in args and args.set:
         if args.set[-3:] != ".md":
-            parser.error("Please use markdown file as template such as ~/path/to/template.md")
+            parser.error(
+                "Please use markdown file as template such as ~/path/to/template.md"
+            )
+
     args.func(args)
 
 
