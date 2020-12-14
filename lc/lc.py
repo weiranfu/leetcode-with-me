@@ -1,13 +1,23 @@
 #!/usr/bin/env python3
 """LeetCode CLI interface and helper functions.
 
-Usage:
-  lc new <filename> <category>
-  lc (u | upload)
+Usage: lc [-h] [-v] command ...
 
-Arguments:
-  filename          the name of this LeetCode solution
-  category          the category this LeetCode solution belongs to
+positional arguments:
+  command
+    init         Initilize at current directory.
+    new          Create a new LeetCode solution from template.
+    upload (u)   Commit a LeetCode solution and push to GitHub.
+    template (t)
+                 Set up a template file for solutions.
+    category (c)
+                 Add/Remove categories that LeetCode problems belongs to.
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -v, --version  show program's version number and exit
+
+Further documentation is available at <https://github.com/weiranfu/leetcode-with-me>.
 """
 
 import argparse
@@ -16,20 +26,31 @@ import sys, os
 import subprocess
 import json
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 __author__ = "Weiran Fu"
 __license__ = "MIT"
 
 this_dir, this_filename = os.path.split(__file__)
-DATA_PATH = os.path.join(this_dir, "data.json")
-TEMPLATE_PATH = os.path.join(this_dir, "template.md")
+DATA_PATH = os.path.abspath(os.path.join(this_dir, "data.json"))
+DEFAULT_TEMPLATE_PATH = os.path.abspath(os.path.join(this_dir, "template.md"))
+data = {}
+TEMPLATE_PATH = ""
+BASE_DIR = ""
+categories = []
+# load data from data.json
+with open(DATA_PATH, 'r') as f:
+    data = json.load(f)
+    TEMPLATE_PATH = data['template']
+    BASE_DIR = data['base_dir']
+    categories = data['categories']
+if not TEMPLATE_PATH:
+    TEMPLATE_PATH = DEFAULT_TEMPLATE_PATH
 
 
 def init(args):
     """Initialize at current directory."""
-    data = {}
     data['base_dir'] = os.getcwd()
-    with open(DATA_PATH, 'w') as f:
+    with open(DATA_PATH, 'r+') as f:
         json.dump(data, f)
     subprocess.call(["git", "init"])
     subprocess.call(["git", "remote", "rm", "origin"])
@@ -38,21 +59,11 @@ def init(args):
 
 def create_file(args):
     """Create a new LeetCode solution from template."""
-    BASE_DIR = ""
-    with open(DATA_PATH, 'r') as f:
-        data = json.load(f)
-        BASE_DIR = data['base_dir']
-    if not BASE_DIR:
-        print("Please first initialize at a directory.\n")
-        subprocess.call(["lc", "--help"])
-        return
     filename = args.filename + ".md"
-    target_dir = "{}/Problems/{}".format(BASE_DIR, args.category)
-    target_dir_summary = "{}/Summary".format(BASE_DIR)
-    target_path = "{}/{}".format(
-        target_dir,
-        filename) if args.category != "Summary" else "{}/{}".format(
-            target_dir_summary, filename)
+    target_path = "{}/Problems/{}/{}".format(
+        BASE_DIR, args.category,
+        filename) if args.category != "Summary" else "{}/Summary/{}".format(
+            BASE_DIR, filename)
     # open the template and read lines
     lines = open(TEMPLATE_PATH, 'r').readlines()
     # update title && category && datetime in solution file
@@ -79,17 +90,30 @@ def create_file(args):
 
 def upload_files(args):
     """Commit a LeetCode solution and push to GitHub."""
-    BASE_DIR = ""
-    with open(DATA_PATH, 'r') as f:
-        data = json.load(f)
-        BASE_DIR = data['base_dir']
-    if not BASE_DIR:
-        print("Please first initialize at a directory.\n")
-        subprocess.call(["lc", "--help"])
-        return
     subprocess.call(["git", "add", "."], cwd=BASE_DIR)
     subprocess.call(["git", "commit", "-m", args.m], cwd=BASE_DIR)
     subprocess.call(["git", "push", "origin", "main"], cwd=BASE_DIR)
+
+
+def template(args):
+    template_path = ""
+    if args.set:
+        if os.path.isabs(args.set):
+            template_path = args.set
+        else:
+            template_path = os.path.abspath(args.set)
+    else:
+        template_path = DEFAULT_TEMPLATE_PATH
+    data['template'] = template_path
+    with open(DATA_PATH, 'w') as f:
+        json.dump(data, f)
+
+def category_add(args):
+    pass
+
+
+def category_rm(args):
+    pass
 
 
 # Construct the CLI
@@ -113,16 +137,12 @@ parser_init.set_defaults(func=init)
 
 parser_new = subparsers.add_parser(
     "new", help="Create a new LeetCode solution from template.")
-parser_new.add_argument("filename", help="The filename of LeetCode solution.")
+parser_new.add_argument("filename",
+                        metavar="<filename>",
+                        help="The filename of LeetCode solution.")
 parser_new.add_argument("category",
-                        choices=[
-                            "Array", "Backtracking", "Binary Search", "Bit",
-                            "BST", "Design", "DP", "Geometry", "Graph",
-                            "Greedy", "KMP", "Linked List", "Math", "Prefix",
-                            "Search", "Segment Tree", "Set", "Sort", "SQL",
-                            "Stack", "String", "Tree", "TreeMap", "Trie",
-                            "Two Pointers", "Union Find", "Summary"
-                        ],
+                        metavar="<category>",
+                        choices=categories,
                         help="The category LeetCode solution belongs to.")
 parser_new.set_defaults(func=create_file)
 
@@ -131,17 +151,56 @@ parser_upload = subparsers.add_parser(
     aliases=["u"],
     help="Commit a LeetCode solution and push to GitHub.")
 parser_upload.add_argument("-m",
-                           metavar="message",
+                           metavar="<message>",
                            default=":pencil: LeetCode with Me!",
                            help="Git commit message")
 parser_upload.set_defaults(func=upload_files)
 
+parser_template = subparsers.add_parser(
+    "template", aliases=['t'], help="Set up a template file for solutions.")
+group = parser_template.add_mutually_exclusive_group(required=True)  # One of -set and --use-default must be chosen
+group.add_argument("-set",
+                   metavar="<template path>",
+                   help="The path of template file.")
+group.add_argument("--use-default",
+                   action="store_true",
+                   help="Use default template file.")
+group.set_defaults(func=template)
+
+parser_category = subparsers.add_parser(
+    'category',
+    aliases=['c'],
+    help="Add/Remove categories that LeetCode problems belongs to.")
+category_subparsers = parser_category.add_subparsers(metavar="command")
+
+category_parser_add = category_subparsers.add_parser(
+    'add', help="Add a new category.")
+category_parser_add.add_argument("category",
+                                 metavar="<category name>",
+                                 help="The name of the category.")
+category_parser_add.set_defaults(func=category_add)
+
+category_parser_rm = category_subparsers.add_parser('rm',
+                                                    help="Remove a category.")
+category_parser_rm.add_argument("category",
+                                metavar="<category name>",
+                                help="The name of the category.")
+category_parser_rm.set_defaults(func=category_rm)
+
 
 def main():
     args = parser.parse_args()
+    print(args)
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
         sys.exit(1)
+    if "remote_repo" not in args and not BASE_DIR:
+        parser.error(
+            "Please first initialize at a directory using `lc init <remote repo>`."
+        )
+    if "set" in args and args.set:
+        if args.set[-3:] != ".md":
+            parser.error("Please use markdown file as template such as ~/path/to/template.md")
     args.func(args)
 
 

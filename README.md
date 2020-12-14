@@ -7,7 +7,9 @@
 ## Features
 
 * Initialize current directory with Git and connect to a GitHub repo.
-* Create a markdown file from [template.md](lc/template.md) to write LeetCode solutions.
+* Create a markdown file from default [template.md](lc/template.md) to write LeetCode solutions.
+* Set up you own markdown format template for writing solutions.
+* Set up the categories which LeetCode problems belongs to.
 * Upload solutions to GitHub repo.
 * Support executing commands in any directory once you have initialized.
 
