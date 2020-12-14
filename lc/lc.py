@@ -22,7 +22,7 @@ Further documentation is available at <https://github.com/weiranfu/leetcode-with
 
 import argparse
 from datetime import datetime
-import sys, os
+import os
 import subprocess
 import json
 
@@ -110,8 +110,10 @@ def template(args):
 
 
 def category_add(args):
-    pass
-
+    categories.append(args.category)
+    data['categories'] = categories
+    with open(DATA_PATH, 'w') as f:
+        json.dump(data, f)
 
 def category_rm(args):
     pass
