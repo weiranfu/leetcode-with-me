@@ -49,8 +49,8 @@ if not TEMPLATE_PATH:
 
 def init(args):
     """Initialize at current directory."""
-    data['base_dir'] = os.getcwd()
-    with open(DATA_PATH, 'r+') as f:
+    data['base_dir'] = os.path.abspath(args.directory)
+    with open(DATA_PATH, 'w') as f:
         json.dump(data, f)
     subprocess.call(["git", "init"])
     subprocess.call(["git", "remote", "rm", "origin"])
@@ -145,7 +145,11 @@ subparsers = parser.add_subparsers(metavar="command")
 
 parser_init = subparsers.add_parser('init',
                                     help="Initilize at current directory.")
+parser_init.add_argument("directory",
+                         metavar="<directory>",
+                         help="The directory you want to initialize at.")
 parser_init.add_argument("remote_repo",
+                         metavar="<remote_repo>",
                          help="The GitHub remote repo to connect with.")
 parser_init.set_defaults(func=init)
 
@@ -212,17 +216,15 @@ category_parser_rm.set_defaults(func=category_rm)
 
 def main():
     args = parser.parse_args()
-    print(args)
     if "remote_repo" not in args and not BASE_DIR:
         parser.error(
-            "Please first initialize at a directory using `lc init <remote repo>`."
+            "Please first initialize at a directory using `lc init <directory> <remote repo>`."
         )
     if "set" in args and args.set:
         if args.set[-3:] != ".md":
             parser.error(
                 "Please use markdown file as template such as ~/path/to/template.md"
             )
-
     args.func(args)
 
 
