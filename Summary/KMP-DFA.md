@@ -41,7 +41,7 @@ After putting "bbab" into machine, X is at "b", which means max length of common
 
 DFA diagram: for "abbab" pattern
 
-![](./KMP-string-search-algorithm/IMG_2305.jpg)
+![](https://cdn.jsdelivr.net/gh/weiranfu/image-hosting@main/img/leetcode/KMP-DFA.jpg)
 
 #### KMP
 

@@ -152,7 +152,7 @@ If we have only 1 floor left to test, we only need 1 move.
 
    So we can use binary search for `j` in `[1, i-1]` to find the max of two terms.
 
-   ![](https://raw.githubusercontent.com/aranne/aranne.github.io/master/images/IMG_887.png)
+   ![](https://cdn.jsdelivr.net/gh/weiranfu/image-hosting@main/img/leetcode/super-egg-drop-887.png)
 
    ```java
    class Solution {

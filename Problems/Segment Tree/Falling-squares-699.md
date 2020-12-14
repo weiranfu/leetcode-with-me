@@ -30,7 +30,7 @@ Output: [2, 5, 5]
 Explanation:
 ```
 
-![](https://raw.githubusercontent.com/aranne/aranne.github.io/master/images/IMG_699.png)
+![](https://cdn.jsdelivr.net/gh/weiranfu/image-hosting@main/img/leetcode/falling-squares-699.png)
 
 ---
 

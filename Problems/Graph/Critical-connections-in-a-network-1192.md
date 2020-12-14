@@ -45,7 +45,7 @@ Use Tarjan's Algorithm to find all SCC.
 
 **但是low的value跟dfs的顺序有关。**
 
-![](https://raw.githubusercontent.com/aranne/aranne.github.io/master/images/IMG_1192.png)
+![](https://cdn.jsdelivr.net/gh/weiranfu/image-hosting@main/img/leetcode/critical-connections-in-a-network-1192.png)
 
 如果我们先访问6 —> 7 —> 5 —> 8 —> 9, 最后所有点的low value都会变成 6 的low value。
 

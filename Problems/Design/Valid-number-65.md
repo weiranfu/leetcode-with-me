@@ -119,7 +119,7 @@ The `ExpInt` state represents `e23`
 
 The end  state is `Integer || Decimal || ExpInt`. Note that `No_Num_Decimal` and `Exp` state cannot be final state.
 
-![](https://raw.githubusercontent.com/aranne/aranne.github.io/master/images/IMG_2505.jpg)
+![](https://cdn.jsdelivr.net/gh/weiranfu/image-hosting@main/img/leetcode/valid-number-65.jpg)
 
 ```java
 class Solution {
