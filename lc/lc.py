@@ -16,7 +16,7 @@ import sys, os
 import subprocess
 import json
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Weiran Fu"
 __license__ = "MIT"
 

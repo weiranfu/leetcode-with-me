@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: leetcode-with-me
-Version: 0.1.0
+Version: 0.1.1
 Summary: LeetCode CLI interface and helper functions.
 Home-page: https://github.com/weiranfu/leetcode-with-me
 Author: Weiran Fu
