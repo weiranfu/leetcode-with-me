@@ -1,16 +1,16 @@
 from setuptools import setup
-import json
+from lc import lc
 
 with open("README.md", 'r') as fp:
     long_description = fp.read()
 
-data = json.loads("./lc/data.json")
+
 
 setup(
     name="leetcode-with-me",
-    version=data['version'],
-    license=data['license'],
-    author=data['author'],
+    version=lc.__version__,
+    license=lc.__license__,
+    author=lc.__author__,
     description="LeetCode CLI interface and helper functions.",
     long_description=long_description,
     long_description_content_type="text/markdown",

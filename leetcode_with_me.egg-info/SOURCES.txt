@@ -1,6 +1,7 @@
 README.md
 setup.py
 lc/__init__.py
+lc/data.json
 lc/lc.py
 lc/template.md
 leetcode_with_me.egg-info/PKG-INFO

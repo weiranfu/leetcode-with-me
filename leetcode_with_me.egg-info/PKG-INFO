@@ -1,19 +1,22 @@
 Metadata-Version: 2.1
 Name: leetcode-with-me
-Version: 0.0.1
+Version: 0.1.0
 Summary: LeetCode CLI interface and helper functions.
 Home-page: https://github.com/weiranfu/leetcode-with-me
 Author: Weiran Fu
 License: MIT
 Description: # leetcode-with-me
         
+        [![lc on PyPI](https://img.shields.io/pypi/v/leetcode-with-me.svg?color=blue&style=for-the-badge)](https://pypi.org/project/leetcode-with-me/)
+        
         > A small tool for writing solutions to LeetCode problems.
         
         ## Features
         
         * Initialize current directory with Git and connect to a GitHub repo.
-        * Create a markdown file with [template.md](lc/template.md) to write LeetCode solutions.
+        * Create a markdown file from [template.md](lc/template.md) to write LeetCode solutions.
         * Upload solutions to GitHub repo.
+        * Support executing commands in any directory once you have initialized.
         
         ## Installation
         

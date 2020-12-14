@@ -27,18 +27,12 @@ TEMPLATE_PATH = os.path.join(this_dir, "template.md")
 
 def init(args):
     """Initialize at current directory."""
-    with open(DATA_PATH, 'r') as f:
-        data = json.load(f)
-        if data['base_dir']:
-            print("You have initialized a directory at {} already.\n".format(
-                data['base_dir']))
-            subprocess.call(["lc", "--help"])
-            return
     data = {}
     data['base_dir'] = os.getcwd()
     with open(DATA_PATH, 'w') as f:
         json.dump(data, f)
     subprocess.call(["git", "init"])
+    subprocess.call(["git", "remote", "rm", "origin"])
     subprocess.call(["git", "remote", "add", "origin", args.remote_repo])
 
 
@@ -89,12 +83,12 @@ def upload_files(args):
         data = json.load(f)
         BASE_DIR = data['base_dir']
     if not BASE_DIR:
-        print("Please first initialize at a directory.")
+        print("Please first initialize at a directory.\n")
         subprocess.call(["lc", "--help"])
         return
-    subprocess.call(["git", "add", "{}/.".format(BASE_DIR)])
-    subprocess.call(["git", "commit", "-m", args.m])
-    subprocess.call(["git", "push", "origin", "main"])
+    subprocess.call(["git", "add", "."], cwd=BASE_DIR)
+    subprocess.call(["git", "commit", "-m", args.m], cwd=BASE_DIR)
+    subprocess.call(["git", "push", "origin", "main"], cwd=BASE_DIR)
 
 
 # Construct the CLI

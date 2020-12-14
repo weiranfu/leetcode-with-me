@@ -9,6 +9,7 @@
 * Initialize current directory with Git and connect to a GitHub repo.
 * Create a markdown file from [template.md](lc/template.md) to write LeetCode solutions.
 * Upload solutions to GitHub repo.
+* Support executing commands in any directory once you have initialized.
 
 ## Installation
 
