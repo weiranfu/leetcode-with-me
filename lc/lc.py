@@ -115,8 +115,12 @@ def category_add(args):
     with open(DATA_PATH, 'w') as f:
         json.dump(data, f)
 
+
 def category_rm(args):
-    pass
+    categories.remove(args.category)
+    data['categories'] = categories
+    with open(DATA_PATH, 'w') as f:
+        json.dump(data, f)
 
 
 # Construct the CLI
@@ -183,8 +187,10 @@ parser_category = subparsers.add_parser(
     aliases=['c'],
     help="Add/Remove categories that LeetCode problems belongs to.")
 
+
 def parser_category_help(args):
     parser_category.print_help()
+
 
 parser_category.set_defaults(func=parser_category_help)
 category_subparsers = parser_category.add_subparsers(metavar="command")
