@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: leetcode-with-me
-Version: 0.1.1
+Version: 0.2.0
 Summary: LeetCode CLI interface and helper functions.
 Home-page: https://github.com/weiranfu/leetcode-with-me
 Author: Weiran Fu
@@ -13,10 +13,13 @@ Description: # leetcode-with-me
         
         ## Features
         
-        * Initialize current directory with Git and connect to a GitHub repo.
-        * Create a markdown file from [template.md](lc/template.md) to write LeetCode solutions.
+        * Initialize a directory with Git and connect to a GitHub repo.
+        * Create a solution from default [template](lc/template.md) for writing LeetCode solutions.
+        * Set up you own writing template.
+        * Add/Remove categories which LeetCode problems belong to.
         * Upload solutions to GitHub repo.
-        * Support executing commands in any directory once you have initialized.
+        * Support executing commands in any directory.
+        * Support markdown format.
         
         ## Installation
         
@@ -26,17 +29,33 @@ Description: # leetcode-with-me
         
         * Initialize a directory and connect to GitHub repo.
         
-          `$ lc init <repo link>`
+          `$ lc init <directory> <remote repo>`
         
         * Create a solution markdown for you.
         
           `$ lc new <solution name> <solution category>`
+        
+        * Set up you own writing template.
+        
+          `$ lc template -set <template path>`
+        
+        * Add/Remove a category.
+        
+          `$ lc category add <category>`
+        
+          `$ lc category rm  <category>`
         
         * Upload solutions to the GitHub repo.
         
           `$ lc upload`
         
         See `lc --help` for more command-line switches and usage instructions.
+        
+        ## Development
+        
+        I would love to hear what you think about `leetcode-with-me` on issues page
+        
+        Make pull requests, report bugs, suggest ideas and discuss `leetcode-with-me`. 
         
         ## License
         MIT

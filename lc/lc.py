@@ -16,8 +16,6 @@ positional arguments:
 optional arguments:
   -h, --help     show this help message and exit
   -v, --version  show program's version number and exit
-
-Further documentation is available at <https://github.com/weiranfu/leetcode-with-me>.
 """
 
 import argparse
@@ -50,11 +48,15 @@ if not TEMPLATE_PATH:
 def init(args):
     """Initialize at current directory."""
     data['base_dir'] = os.path.abspath(args.directory)
+    data['template'] = ""
     with open(DATA_PATH, 'w') as f:
         json.dump(data, f)
-    subprocess.call(["git", "init"])
-    subprocess.call(["git", "remote", "rm", "origin"])
-    subprocess.call(["git", "remote", "add", "origin", args.remote_repo])
+    subprocess.call(["git", "init"], cwd=args.directory)
+    subprocess.call(["git", "remote", "rm", "origin"],
+                    cwd=args.directory,
+                    stderr=subprocess.DEVNULL)  # omit error in subprocess
+    subprocess.call(["git", "remote", "add", "origin", args.remote_repo],
+                    cwd=args.directory)
 
 
 def create_file(args):
@@ -72,19 +74,24 @@ def create_file(args):
     dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
     # create a new file and write lines
     os.makedirs(os.path.dirname(target_path), exist_ok=True)
-    with open(target_path, 'w') as fp:
-        fp.write(lines[0])
-        for line in lines[1:]:
-            if "title:" in line:
-                fp.write("title: Easy Medium Hard | {}\n".format(title))
-            elif "Graph" in line:
-                fp.write("  - {}\n".format(args.category))
-            elif "date:" in line:
-                fp.write("date: {}\n".format(dt_string))
-            elif "TITLE" in line:
-                fp.write("# {}\n".format(title))
-            else:
+    if TEMPLATE_PATH != DEFAULT_TEMPLATE_PATH:
+        with open(target_path, 'w') as fp:
+            for line in lines:
                 fp.write(line)
+    else:
+        with open(target_path, 'w') as fp:
+            fp.write(lines[0])
+            for line in lines[1:]:
+                if "title:" in line:
+                    fp.write("title: Easy Medium Hard | {}\n".format(title))
+                elif "Graph" in line:
+                    fp.write("  - {}\n".format(args.category))
+                elif "date:" in line:
+                    fp.write("date: {}\n".format(dt_string))
+                elif "TITLE" in line:
+                    fp.write("# {}\n".format(title))
+                else:
+                    fp.write(line)
     subprocess.call(["open", target_path])
 
 
@@ -147,14 +154,15 @@ def parser_help(args):
 parser.set_defaults(func=parser_help)
 subparsers = parser.add_subparsers(metavar="command")
 
-parser_init = subparsers.add_parser('init',
-                                    help="Initilize at a directory and set up remote GitHub repo.")
+parser_init = subparsers.add_parser(
+    'init', help="Initilize at a directory and set up remote GitHub repo.")
 parser_init.add_argument("directory",
                          metavar="<directory>",
                          help="The path to the directory to initialize at.")
-parser_init.add_argument("remote_repo",
-                         metavar="<remote_repo>",
-                         help="The link of remote GitHub repo to connect with.")
+parser_init.add_argument(
+    "remote_repo",
+    metavar="<remote_repo>",
+    help="The link of remote GitHub repo to connect with.")
 parser_init.set_defaults(func=init)
 
 parser_new = subparsers.add_parser(
@@ -162,10 +170,11 @@ parser_new = subparsers.add_parser(
 parser_new.add_argument("filename",
                         metavar="<filename>",
                         help="The filename of LeetCode solution.")
-parser_new.add_argument("category",
-                        metavar="<category>",
-                        choices=categories,
-                        help="The category which LeetCode solution belongs to.")
+parser_new.add_argument(
+    "category",
+    metavar="<category>",
+    choices=categories,
+    help="The category which LeetCode solution belongs to.")
 parser_new.set_defaults(func=create_file)
 
 parser_upload = subparsers.add_parser(
@@ -179,7 +188,9 @@ parser_upload.add_argument("-m",
 parser_upload.set_defaults(func=upload_files)
 
 parser_template = subparsers.add_parser(
-    "template", aliases=['t'], help="Set up a template file for writing solutions.")
+    "template",
+    aliases=['t'],
+    help="Set up a template file for writing solutions.")
 group = parser_template.add_mutually_exclusive_group(
     required=True)  # One of -set and --use-default must be chosen
 group.add_argument("-set",
