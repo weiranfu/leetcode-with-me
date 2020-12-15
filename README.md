@@ -28,7 +28,7 @@
 
   `$ lc new <solution name> <solution category>`
 
-* Set up you own writing template.
+* Set up your own writing template.
 
   `$ lc template -set <template path>`
 
