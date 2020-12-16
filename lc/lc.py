@@ -24,7 +24,7 @@ import os
 import subprocess
 import json
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __author__ = "Weiran Fu"
 __license__ = "MIT"
 
@@ -120,7 +120,7 @@ def category_add(args):
     if args.category in categories:
         return
     categories.append(args.category)
-    data['categories'] = categories
+    data['categories'] = sorted(categories)
     with open(DATA_PATH, 'w') as f:
         json.dump(data, f)
 

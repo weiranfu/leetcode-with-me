@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: leetcode-with-me
-Version: 0.2.0
+Version: 0.2.1
 Summary: LeetCode CLI interface and helper functions.
 Home-page: https://github.com/weiranfu/leetcode-with-me
 Author: Weiran Fu
@@ -35,7 +35,7 @@ Description: # leetcode-with-me
         
           `$ lc new <solution name> <solution category>`
         
-        * Set up you own writing template.
+        * Set up your own writing template.
         
           `$ lc template -set <template path>`
         
