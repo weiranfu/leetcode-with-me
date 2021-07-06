@@ -8,6 +8,7 @@
 
 * Initialize a directory with Git and connect to your GitHub repo.
 * Write your LeetCode solution from default [template](lc/template.md).
+* Search and open your LeetCode solution.
 * Set up your own writing template.
 * Add/Remove categories for your LeetCode solutions.
 * Support markdown format.
@@ -25,6 +26,10 @@
 * Create a solution markdown for you.
 
   `$ lc new <solution name> <solution category>`
+
+* Search and open a solution.
+
+  `$ lc open <search name>`
 
 * Set up your own writing template.
 
