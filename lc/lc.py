@@ -94,6 +94,16 @@ def create_file(args):
                     fp.write(line)
     subprocess.call(["open", target_path])
 
+def open_file(args):
+    """Open a LeetCode solution contains this filename."""
+    filename = args.filename
+    result = {}
+    for root, dirs, files in os.walk(BASE_DIR):
+        for name in files:
+            if filename in name:
+                result[filename] = root + name
+    for name in result:
+        print(name)
 
 def upload_files(args):
     """Commit a LeetCode solution and push to GitHub."""
@@ -176,6 +186,10 @@ parser_new.add_argument(
     choices=categories,
     help="The category which LeetCode solution belongs to.")
 parser_new.set_defaults(func=create_file)
+
+parser_open = subparsers.add_parser("open", help="Open an existing solution.")
+parser_open.add_argument("filename", metavar="<filename>", help="The filename of the solution.")
+parser_open.set_defaults(func=open_file)
 
 parser_upload = subparsers.add_parser(
     "upload",
