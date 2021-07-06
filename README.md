@@ -6,12 +6,10 @@
 
 ## Features
 
-* Initialize a directory with Git and connect to a GitHub repo.
-* Create a solution from default [template](lc/template.md) for writing LeetCode solutions.
-* Set up you own writing template.
-* Add/Remove categories which LeetCode problems belong to.
-* Upload solutions to GitHub repo.
-* Support executing commands in any directory.
+* Initialize a directory with Git and connect to your GitHub repo.
+* Write your LeetCode solution from default [template](lc/template.md).
+* Set up your own writing template.
+* Add/Remove categories for your LeetCode solutions.
 * Support markdown format.
 
 ## Installation
