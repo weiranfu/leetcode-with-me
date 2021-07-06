@@ -24,7 +24,7 @@ import os
 import subprocess
 import json
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 __author__ = "Weiran Fu"
 __license__ = "MIT"
 
@@ -96,14 +96,21 @@ def create_file(args):
 
 def open_file(args):
     """Open a LeetCode solution contains this filename."""
-    filename = args.filename
-    result = {}
+    searchname = args.filename
+    names = []
+    paths = []
     for root, dirs, files in os.walk(BASE_DIR):
         for name in files:
-            if filename in name:
-                result[filename] = root + name
-    for name in result:
-        print(name)
+            if searchname.lower() in name.lower():
+                names.append(name)
+                paths.append(os.path.join(root, name))
+    if len(names) == 0:
+        print("Cannot search any solution contains {}.".format(searchname))
+        return
+    for i in range(len(names)):
+        print("{}. {}".format(i, names[i]))
+    num = int(input("Please choose one to open:\n"))
+    subprocess.call(["open", paths[num]])
 
 def upload_files(args):
     """Commit a LeetCode solution and push to GitHub."""
